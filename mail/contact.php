@@ -1,3 +1,24 @@
+// <?php
+// if(empty($_POST['name']) || empty($_POST['subject']) || empty($_POST['message']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+//   http_response_code(500);
+//   exit();
+// }
+
+// $name = strip_tags(htmlspecialchars($_POST['name']));
+// $email = strip_tags(htmlspecialchars($_POST['email']));
+// $m_subject = strip_tags(htmlspecialchars($_POST['subject']));
+// $message = strip_tags(htmlspecialchars($_POST['message']));
+
+// $to = "ggupta4_be20@thapar.edu"; 
+// $subject = "$m_subject:  $name";
+// $body = "You have received a new message from your website contact form.\n\n"."Here are the details:\n\nName: $name\n\n\nEmail: $email\n\nSubject: $m_subject\n\nMessage: $message";
+// $header = "From: $email";
+// $header .= "Reply-To: $email";	
+
+// if(!mail($to, $subject, $body, $header))
+//   http_response_code(500);
+// ?>
+
 <?php
 if(empty($_POST['name']) || empty($_POST['subject']) || empty($_POST['message']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
   http_response_code(500);
@@ -5,16 +26,18 @@ if(empty($_POST['name']) || empty($_POST['subject']) || empty($_POST['message'])
 }
 
 $name = strip_tags(htmlspecialchars($_POST['name']));
-$email = strip_tags(htmlspecialchars($_POST['email']));
+$email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
 $m_subject = strip_tags(htmlspecialchars($_POST['subject']));
 $message = strip_tags(htmlspecialchars($_POST['message']));
 
-$to = "ggupta4_be20@thapar.edu"; 
+$to = "ggupta4_be20@thapar.edu";
 $subject = "$m_subject:  $name";
-$body = "You have received a new message from your website contact form.\n\n"."Here are the details:\n\nName: $name\n\n\nEmail: $email\n\nSubject: $m_subject\n\nMessage: $message";
-$header = "From: $email";
-$header .= "Reply-To: $email";	
+$body = "You have received a new message from your website contact form.\n\n"."Here are the details:\n\nName: $name\n\nEmail: $email\n\nSubject: $m_subject\n\nMessage: $message";
+$header = "From: $email\r\n";
+$header .= "Reply-To: $email\r\n";
 
-if(!mail($to, $subject, $body, $header))
+if(!mail($to, $subject, $body, $header)) {
   http_response_code(500);
+}
 ?>
+
